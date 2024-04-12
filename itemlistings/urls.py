@@ -19,6 +19,9 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('carribList/', views.carribeanListView.as_view(), name='carribean-list'),
-
+    path('getAllItems/', views.itemListView.as_view(), name='getAllItemsPath'),
+    #path('createItem/', views.itemCreateView.as_view(), name='carribean-list'),
+    path('createOrder/', views.orderView.as_view(), name='order'),
+    path('viewOrder/<str:name>/', views.orderViewFilterLatest.as_view(), name='orderLatestFilter'),#http://urlstuff/customer/viewOrder/Jane Doe/ Example URL for this
+    path('orderItems/', views.orderItems.as_view(), name='orderitems'),
 ]
