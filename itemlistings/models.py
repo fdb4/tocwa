@@ -6,7 +6,7 @@ class Main(models.Model):
     itemName=models.CharField(max_length=75)
     Distributer=models.CharField(max_length=75)
     imagepath=models.CharField(max_length=200)
-    price=models.PositiveIntegerField()
+    price=models.FloatField()
     manufacture=models.CharField(max_length=75)
     lastModifed=models.DateTimeField(auto_now_add=True)
     categoryID=models.ForeignKey('Category',related_name="items",on_delete=models.RESTRICT,db_column='categoryID')
@@ -26,6 +26,7 @@ class Cartitem(models.Model):
     cartID=models.ForeignKey('Cart',related_name='+',on_delete=models.RESTRICT,db_column='cartID')
     itemID=models.ForeignKey('Main',related_name='+',on_delete=models.RESTRICT,db_column='itemID')
     quantity=models.PositiveIntegerField()
+    lbwanted=models.FloatField()
     def __str__(self):
         return self.content
 class Cart(models.Model):

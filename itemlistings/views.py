@@ -3,12 +3,13 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .models import Main,Category,Cart
+from .models import Main,Category,Cart,Cartitem
 from django.http import FileResponse
 from django.core.mail import send_mail
 from reportlab.pdfgen import canvas
 import io
 import itemlistings.serializers as serializers
+from .miscfeat import render_to_pdf
 
 # Create your views here.
 class itemCreateView(generics.CreateAPIView):
@@ -46,14 +47,41 @@ class orderItems(APIView):
             print(serializer.is_valid())
             if serializer.is_valid() ==False:
                 return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+            serializer.save()
             #else:
                 #serializer.save()
+        #add this to the miscfeat(misc features) file later
         subject1=request.data[0]["cartID"]
-        s="order "+str(subject1)+"has dropped"
+        s="order # "+str(subject1)+"has been made"
 
-        send_mail(subject=s,message="an order dropped",from_email=None,recipient_list=["fdb4@njit.edu"])
+        m=r"http://127.0.0.1:8000/customer/invoice/"+str(subject1)+"/"
+        send_mail(subject=s,message=m,from_email=None,recipient_list=["fdb4@njit.edu",])
+
         return Response(request.data,status=status.HTTP_201_CREATED)
+class reciept(APIView):
 
+    def get(self,request,ordernum):
+        try:
+            id=ordernum
+            total=0
+            queryset=Cart.objects.filter(cartID=id).latest('LastModified')
+            querysetci=Cartitem.objects.filter(cartID=queryset)
+            cartstuff=serializers.OrderFilterLatest(queryset)
+            cartlist=serializers.recitemcartlist(querysetci,many=True)
+            print(cartstuff.data)
+            print(cartlist.data)
+            for item in cartlist.data:
+                print(item["itemID"])
+                if item["lbwanted"]==None:
+                    total += (item["itemID"]["price"] * item["quantity"])
+                else:
+                    total+=(item["itemID"]["price"]*item["quantity"]*item["lbwanted"])
+            print(total)
+            tax=total*.06625
+            grandtotal=tax+total
+            return render_to_pdf('pdfs/recipt.html', {"cartstuff":cartstuff.data,"cartlist":cartlist.data,"tax":round(tax,2),"total":round(total,2),"grandtotal":round(grandtotal,2)})
+        except:
+            return Response({"error": "No items found"}, status=status.HTTP_404_NOT_FOUND)
 
 '''
 class  categoryListView(generics.ListAPIView):

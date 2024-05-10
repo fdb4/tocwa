@@ -24,4 +24,5 @@ urlpatterns = [
     path('createOrder/', views.orderView.as_view(), name='order'),
     path('viewOrder/<str:name>/', views.orderViewFilterLatest.as_view(), name='orderLatestFilter'),#http://urlstuff/customer/viewOrder/Jane Doe/ Example URL for this
     path('orderItems/', views.orderItems.as_view(), name='orderitems'),
+    path("invoice/<int:ordernum>/",views.reciept.as_view(),name='recipt')
 ]

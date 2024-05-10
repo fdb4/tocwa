@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<style>
+    .orderinfo{text-align: left;
+                line-height: 1;
+                font-weight: bold;
+                font-size: 15px;
+            }
+    .orderid{text-align: right;}
+    th{
+        width: 15%;
+        border-bottom: .5px solid black;
+
+    }
+    .name{
+        width: 25%;
+        border-bottom: .5px solid black;
+        
+    }
+    .bottomborder{border-bottom: .5px solid black; padding: 2px;}
+
+    </style>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hello world</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+
+        <div class="orderinfo">{{cartstuff.userName}}</div>
+        <div class="orderinfo">OrderID: {{cartstuff.cartID}}</div>
+        <div class="orderinfo">Email:{{cartstuff.email}}</div>
+        {%if cartstuff.pickupdelv %}
+        <div class="orderinfo">{{cartstuff.address}}</div>
+        {%endif%}
+        <br>
+        <table>
+        <tr>
+            <th class="name">item</th>
+            <th>quantity</th>
+            <th>lb of item</th>
+            <th>price</th>
+        </tr>
+        {%for item in cartlist%}
+        <tr class="bottomborder">
+            
+            <td class="bottomborder">{{item.itemID.itemName}}</td>
+            <td class="bottomborder">{{item.quantity}}</td>
+            <td class="bottomborder">{%if item.lbwanted is not None %}
+                <div>{{item.lbwanted}}</div>
+                {%endif%}
+
+               
+            </td>
+            <td class="bottomborder">{{item.itemID.price}}</td>
+
+        </tr>
+        {%endfor%}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="padding: 2px;">{{total}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td>NJ Tax</td>
+            <td style="padding: 2px;">{{tax}}</td>
+        </tr>
+         <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="border-top: .5px solid black;padding: 2px;">total :{{grandtotal}}</td>
+        </tr>
+
+        </table>
+        
+      
+            
+    </body>
+        
+        <script src="" async defer></script>
+    </body>
+</html>

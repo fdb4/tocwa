@@ -39,10 +39,6 @@ class cartitemitemID(serializers.ModelSerializer):
         model = Main
         fields = ['itemName']
 class cartitems(serializers.ModelSerializer):
-    #cartID=serializers.PrimaryKeyRelatedField(many=True,read_only=True)
-    #itemID=serializers.PrimaryKeyRelatedField(many=True,read_only=True)
-
-    #itemID=cartitemitemID()
     class Meta:
         model=Cartitem
         fields=['cartID','itemID','quantity']
@@ -51,5 +47,16 @@ class postItems(serializers.ModelSerializer):
     class Meta:
         model=Main
         fields=['itemName','Distributer','imagepath','categoryID','price','manufacture']
+
+class recitemcart(serializers.ModelSerializer):
+    class Meta:
+        model = Main
+        fields = ['itemName','price',]
+class recitemcartlist(serializers.ModelSerializer):
+    itemID=recitemcart()
+    class Meta:
+        model = Cartitem
+        fields = [ 'itemID', 'quantity', 'lbwanted']
+
 
 #class addCartView(serializers.ModelSerializer):

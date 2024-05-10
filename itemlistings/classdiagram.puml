@@ -1,0 +1,92 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class itemListView{
+    get(self,request)
+}
+class orderView{
+    post(self,request)
+}
+class orderViewFilterLatest{
+    get(self,request,name)
+}
+class recipt{
+get(self,request,ordernum)
+}
+class orderItems{
+post(self,request)
+}
+class Main{
+itemID
+itemName
+Distributer
+imagepath
+price
+manufacture
+lastmodifed
+categoryID
+__str__(self)
+}
+class Category{
+categoryID
+categoryName
+__str__(self)
+}
+class Cartitem{
+cartItemID
+cartID
+itemID
+quantity
+lbwanted
+__str__(self)
+}
+class Cart{
+cartID
+username
+email
+pickupdelv
+address
+lastmodifed
+__str__(self)
+}
+class categorySerializer
+class getItems{
+categoryID
+}
+class createOrder
+class orderFilterLatest
+
+class cartitems
+class recitemcart
+class recitemcartlist{
+itemID
+}
+class Meta{
+model
+fields[]
+}
+getItems<|--categorySerializer
+getItems<|--Meta
+itemListView <|-- Main
+itemListView<|-- getItems
+
+createOrder<|--Meta
+orderView<|--createOrder
+
+orderFilterLatest<|--Meta
+orderViewFilterLatest<|--Cart
+orderViewFilterLatest<|--orderFilterLatest
+
+cartitems<|--Meta
+orderItems<|--cartitems
+
+recitemcart<|--Meta
+recitemcartlist<|--Meta
+recitemcartlist<|-- recitemcart
+recipt<|--Cart
+recipt<|--Cartitem
+recipt<|--orderFilterLatest
+recipt<|--recitemcartlist
+
+
+@enduml
