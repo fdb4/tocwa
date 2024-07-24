@@ -55,7 +55,7 @@ class orderItems(APIView):
         s="order # "+str(subject1)+"has been made"
 
         m=r"http://127.0.0.1:8000/customer/invoice/"+str(subject1)+"/"
-        send_mail(subject=s,message=m,from_email=None,recipient_list=["fdb4@njit.edu",])
+        send_mail(subject=s,message=m,from_email=None,recipient_list=["insertemailhere",])
 
         return Response(request.data,status=status.HTTP_201_CREATED)
 class reciept(APIView):
